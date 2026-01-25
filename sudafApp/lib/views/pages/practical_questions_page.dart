@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testapp/views/pages/initial_test.dart';
 import 'package:testapp/views/pages/questions.dart';
 import 'package:testapp/views/pages/profile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -75,6 +76,27 @@ class _PracticalQuestionsPageState extends State<PracticalQuestionsPage> {
                   backgroundColor: Color.fromARGB(0, 253, 255, 225),
                   child: FaIcon(
                     FontAwesomeIcons.userGraduate, // أيقونة الخريج
+                    size: 28,
+                    color: Color.fromARGB(255, 96, 96, 96),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 40,
+              right: 50,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const InitialTest()),
+                  );
+                },
+                child: const CircleAvatar(
+                  radius: 28,
+                  backgroundColor: Color.fromARGB(0, 253, 255, 225),
+                  child: FaIcon(
+                    FontAwesomeIcons.question,// أيقونة السؤال 
                     size: 28,
                     color: Color.fromARGB(255, 96, 96, 96),
                   ),
