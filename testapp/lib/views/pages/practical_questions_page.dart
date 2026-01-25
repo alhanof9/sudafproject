@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:testapp/views/pages/questions.dart';
-import 'package:testapp/views/widgets_tree.dart';
 import 'package:testapp/views/pages/profile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
