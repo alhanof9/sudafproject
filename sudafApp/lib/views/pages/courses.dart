@@ -37,13 +37,15 @@ class _CoursesPageState extends State<CoursesPage>
       'title': 'Cisco Certified Network Associate (CCNA)',
       'provider': 'Cisco',
       'type': 'شهادة',
-      'url': 'https://www.cisco.com/c/en/us/training-events/training-certifications/certifications.html',
+      'url':
+          'https://www.cisco.com/c/en/us/training-events/training-certifications/certifications.html',
     },
     {
       'title': 'Microsoft Certified: Azure Fundamentals',
       'provider': 'Microsoft',
       'type': 'شهادة',
-      'url': 'https://learn.microsoft.com/en-us/certifications/azure-fundamentals/',
+      'url':
+          'https://learn.microsoft.com/en-us/certifications/azure-fundamentals/',
     },
   ];
 
@@ -68,73 +70,75 @@ class _CoursesPageState extends State<CoursesPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-     appBar: PreferredSize(
-  preferredSize: const Size.fromHeight(180), // زودنا الارتفاع عشان يظهر النص والأيقونة
-  child: AppBar(
-    elevation: 0,
-    backgroundColor: const Color.fromARGB(255, 255, 252, 245),
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(
-        bottom: Radius.circular(55),
-      ),
-    ),
-    flexibleSpace: Padding(
-      padding: const EdgeInsets.fromLTRB(16, 50, 16, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              const Spacer(),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ProfilePage()),
-                  );
-                },
-                child: const CircleAvatar(
-                  radius: 24,
-                  backgroundColor: Colors.transparent,
-                  child: FaIcon(
-                    FontAwesomeIcons.userGraduate,
-                    size: 24,
-                    color: Color.fromARGB(255, 96, 96, 96),
-                  ),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(
+          180,
+        ), // زودنا الارتفاع عشان يظهر النص والأيقونة
+        child: AppBar(
+          elevation: 0,
+          backgroundColor: const Color.fromARGB(255, 255, 252, 245),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(55)),
+          ),
+          flexibleSpace: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 50, 16, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ProfilePage(),
+                          ),
+                        );
+                      },
+                      child: const CircleAvatar(
+                        radius: 24,
+                        backgroundColor: Colors.transparent,
+                        child: FaIcon(
+                          FontAwesomeIcons.userGraduate,
+                          size: 24,
+                          color: Color.fromARGB(255, 96, 96, 96),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+                const SizedBox(height: 10),
+                Text(
+                  'كل معرفة تكتسبها تبني سدفًا يضيء دربك نحو النجاح الوظيفي',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 117, 117, 117),
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+          bottom: TabBar(
+            controller: _tabController,
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.grey,
+            indicatorColor: Colors.black,
+            indicatorWeight: 2,
+            tabs: const [
+              Tab(text: 'الكل'),
+              Tab(text: 'دورات'),
+              Tab(text: 'شهادات'),
             ],
           ),
-          const SizedBox(height: 10),
-          Text(
-            'كل معرفة تكتسبها تبني سدفًا يضيء دربك نحو النجاح الوظيفي',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: Color.fromARGB(255, 117, 117, 117),
-            ),
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 20),
-        ],
+        ),
       ),
-    ),
-    bottom: TabBar(
-      controller: _tabController,
-      labelColor: Colors.black,
-      unselectedLabelColor: Colors.grey,
-      indicatorColor: Colors.black,
-      indicatorWeight: 2,
-      tabs: const [
-        Tab(text: 'الكل'),
-        Tab(text: 'دورات'),
-        Tab(text: 'شهادات'),
-      ],
-    ),
-  ),
-),
 
       body: TabBarView(
         controller: _tabController,
@@ -160,10 +164,7 @@ class _CoursesPageState extends State<CoursesPage>
             margin: const EdgeInsets.symmetric(vertical: 8),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
-              side: const BorderSide(
-                color: Color(0xFFFEDF89),
-                width: 1,
-              ),
+              side: const BorderSide(color: Color(0xFFFEDF89), width: 1),
             ),
             color: const Color.fromARGB(244, 255, 251, 239),
             child: Padding(
@@ -174,8 +175,10 @@ class _CoursesPageState extends State<CoursesPage>
                     onTap: () async {
                       var url = Uri.parse(course['url']!);
                       if (await canLaunchUrl(url)) {
-                        await launchUrl(url,
-                            mode: LaunchMode.externalApplication);
+                        await launchUrl(
+                          url,
+                          mode: LaunchMode.externalApplication,
+                        );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('لا يمكن فتح الرابط')),
@@ -213,8 +216,7 @@ class _CoursesPageState extends State<CoursesPage>
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          const Color.fromARGB(255, 255, 248, 227),
+                      backgroundColor: const Color.fromARGB(255, 255, 248, 227),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                         side: const BorderSide(

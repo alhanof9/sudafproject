@@ -1,589 +1,410 @@
 import 'package:flutter/material.dart';
+import 'package:testapp/views/pages/profile.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Interview extends StatefulWidget {
+class Interview extends StatelessWidget {
   const Interview({super.key});
 
   @override
-  State<Interview> createState() => _InterviewState();
-}
-
-class _InterviewState extends State<Interview> {
-  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 393,
-          height: 852,
-          clipBehavior: Clip.antiAlias,
-          decoration: ShapeDecoration(
-            color: const Color(0xFFFFFBEB),
-            shape: RoundedRectangleBorder(
+    return Scaffold(
+      backgroundColor: const Color(0xFFFFFBEB),
+
+      body: SafeArea(
+        child: Center(
+          child: Container(
+            width: 393,
+            height: 852,
+            decoration: BoxDecoration(
+              //الخلفية اللي ورا
+              color: const Color(0xFFFFFBEB),
               borderRadius: BorderRadius.circular(54),
             ),
-          ),
-          child: Stack(
-            children: [
-              Positioned(
-                left: 31,
-                top: 20,
-                child: Container(
-                  width: 326,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    spacing: 219,
-                    children: [
-                      SizedBox(
-                        width: 40,
-                        child: Text(
-                          '08:15',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: const Color(0xFF101828) /* Color-Text-Primary */,
-                            fontSize: 15,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: -0.30,
-                          ),
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 40,
+                  right: 20,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProfilePage(),
                         ),
+                      );
+                    },
+                    child: const CircleAvatar(
+                      radius: 28,
+                      backgroundColor: Color.fromARGB(0, 253, 255, 225),
+                      child: FaIcon(
+                        FontAwesomeIcons.userGraduate, // أيقونة الخريج
+                        size: 28,
+                        color: Color.fromARGB(255, 96, 96, 96),
                       ),
-                      Container(
-                        width: 67,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          spacing: 5,
-                          children: [
-                            Opacity(
-                              opacity: 0.35,
-                              child: Container(
-                                width: 22,
-                                height: 11.33,
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      width: 1,
-                                      color: const Color(0xFF101828) /* Color-Text-Primary */,
-                                    ),
-                                    borderRadius: BorderRadius.circular(2.67),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 18,
-                              height: 7.33,
-                              decoration: ShapeDecoration(
-                                color: const Color(0xFF101828) /* Color-Text-Primary */,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(1.33),
-                                ),
-                              ),
+                    ),
+                  ),
+                ),
+
+                /// العنوان
+                const Positioned(
+                  top: 105,
+                  left: 0,
+                  right: 0,
+                  child: Text(
+                    'تعليمات ماقبل المقابلة',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Roboto',
+                    ),
+                  ),
+                ),
+
+                /// التعليمات
+                Positioned(
+                  top: 200,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: 852 * 0.7,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFFEFC),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(180),
+                        topRight: Radius.circular(12),
+                        bottomLeft: Radius.circular(12),
+                      ),
+                      border: Border.all(
+                        color: const Color.fromARGB(107, 155, 155, 155),
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(105, 133, 133, 133),
+                          blurRadius: 5,
+                          offset: Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 15,
+                  top: 248,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(
+                        Icons.check_circle,
+                        size: 30,
+                        color: Color.fromARGB(255, 250, 236, 179),
+                      ),
+                      SizedBox(height: 20), // مسافة بين الأيقونات
+                      Icon(
+                        Icons.check_circle,
+                        size: 30,
+                        color: Color.fromARGB(255, 250, 236, 179),
+                      ),
+                      SizedBox(height: 35), // مسافة بين الأيقونات
+                      Icon(
+                        Icons.check_circle,
+                        size: 30,
+                        color: Color.fromARGB(255, 250, 236, 179),
+                      ),
+                      SizedBox(height: 35), // مسافة بين الأيقونات
+                      Icon(
+                        Icons.check_circle,
+                        size: 30,
+                        color: Color.fromARGB(255, 250, 236, 179),
+                      ),
+                      SizedBox(height: 35), // مسافة بين الأيقونات
+                      Icon(
+                        Icons.check_circle,
+                        size: 30,
+                        color: Color.fromARGB(255, 250, 236, 179),
+                      ),
+                      SizedBox(height: 30), // مسافة بين الأيقونات
+                      Icon(
+                        Icons.check_circle,
+                        size: 30,
+                        color: Color.fromARGB(255, 250, 236, 179),
+                      ),
+                    ],
+                  ),
+                ),
+
+                /// التعليمات
+                Positioned(
+                  top: 250,
+                  left: 60,
+                  right: 60,
+                  child: const Text(
+                    '''
+مدة المقابلة 5 دقائق فقط
+
+يمكنك الإجابة عن السؤال بالضغط المستمر على الزر أثناء التحدث، وإفلاته عند الانتهاء
+
+حاول إجراء المقابلة في مكان هادئ لتسجيل صوت واضح
+
+إذا غادرت المقابلة قبل انتهاء الوقت، فلن يتم حفظ أي إجابات
+
+عند إكمال المقابلة بالكامل، يمكنك عرض النتائج في صفحة المقابلات السابقة
+
+ركّز وأكمل المقابلة ضمن الوقت المحدد للحصول على أفضل تقييم
+''',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF101828),
+                    ),
+                  ),
+                ),
+
+                /// زر البدء
+                Positioned(
+                  bottom: 80, //نزلت الزر تحت اكثر
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const InterviewPage(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: 135,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 250, 236, 179),
+                          borderRadius: BorderRadius.circular(100),
+                          border: Border.all(color: const Color(0x6BFEDF89)),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x3F000000),
+                              blurRadius: 5,
+                              offset: Offset(0, 1),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 339,
-                top: 89,
-                child: Text.rich(
-                  TextSpan(),
-                ),
-              ),
-              Positioned(
-                left: 330,
-                top: 76,
-                child: Container(
-                  width: 27,
-                  height: 27,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage("https://placehold.co/27x27"),
-                      fit: BoxFit.cover,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 4,
-                        offset: Offset(0, 4),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 91,
-                top: 119,
-                child: Text(
-                  'تعليمات ماقبل المقابلة',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              Positioned(
-                left: -928,
-                top: 55,
-                child: Container(
-                  width: 341,
-                  height: 250,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFE6E6E6),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32),
-                    ),
-                    shadows: [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 4,
-                        offset: Offset(0, 4),
-                        spreadRadius: 8,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 0,
-                top: 203,
-                child: Container(
-                  width: 388,
-                  height: 613,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFFFFEFC),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),
-                        bottomLeft: Radius.circular(150),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 60,
-                top: 256,
-                child: SizedBox(
-                  width: 267,
-                  height: 341,
-                  child: Text(
-                    ' مدة المقابلة 5 دقائق فقط.\nيمكنك الإجابة عن السؤال بالضغط المستمر على الزر أثناء التحدث، وإفلاته عند الانتهاء.\nحاول إجراء المقابلة في مكان هادئ لتسجيل صوت واضح.\nإذا غادرت المقابلة قبل انتهاء الوقت، فلن يتم حفظ أي إجابات.\nعند إكمال المقابلة بالكامل، يمكنك عرض النتائج في صفحة المقابلات السابقة.\n ركّز وأكمل المقابلة ضمن الوقت المحدد للحصول على أفضل تقييم.',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: const Color(0xFF101828),
-                      fontSize: 15,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 341,
-                top: 588.10,
-                child: Container(
-                  transform: Matrix4.identity()..translate(0.0, 0.0)..rotateZ(-1.57),
-                  width: 290.10,
-                  height: 32,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 72.25,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(color: const Color(0xFF8D8D8D)),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 72.25,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(color: const Color(0xFF8D8D8D)),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 72.25,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(color: const Color(0xFF8D8D8D)),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 72.25,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(color: const Color(0xFF8D8D8D)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 347,
-                top: 262,
-                child: Container(
-                  width: 20,
-                  height: 22,
-                  padding: const EdgeInsets.all(2),
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFF9E59E),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(64),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: double.infinity,
-                          child: Stack(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 346,
-                top: 307,
-                child: Container(
-                  width: 20,
-                  height: 23,
-                  padding: const EdgeInsets.all(2),
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFF9E59E),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(64),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: double.infinity,
-                          child: Stack(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 346,
-                top: 373,
-                child: Container(
-                  width: 20,
-                  height: 22,
-                  padding: const EdgeInsets.all(2),
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFF9E59E),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(64),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: double.infinity,
-                          child: Stack(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 346,
-                top: 433,
-                child: Container(
-                  width: 20,
-                  height: 22,
-                  padding: const EdgeInsets.all(2),
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFF9E59E),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(64),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: double.infinity,
-                          child: Stack(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 346,
-                top: 494,
-                child: Container(
-                  width: 20,
-                  height: 21,
-                  padding: const EdgeInsets.all(2),
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFF9E59E),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(64),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: double.infinity,
-                          child: Stack(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 347,
-                top: 549,
-                child: Container(
-                  width: 20,
-                  height: 22,
-                  padding: const EdgeInsets.all(2),
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFF9E59E),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(64),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: double.infinity,
-                          child: Stack(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 121,
-                top: 633,
-                child: Container(
-                  width: 144,
-                  height: 48,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFFFF3C2),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        width: 1,
-                        color: const Color(0x6BFEDF89),
-                      ),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    shadows: [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 5,
-                        offset: Offset(0, 1),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    spacing: 10,
-                    children: [
-                      Text(
-                        'بدء المقابلة',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w500,
-                          height: 1.25,
-                          letterSpacing: 0.10,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 0,
-                top: 767,
-                child: Container(
-                  width: 388,
-                  height: 85,
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFFFFCF5) /* Color-Yellow-Yellow-25 */,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(90),
-                    ),
-                    shadows: [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 7,
-                        offset: Offset(0, 0),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 115,
-                top: 776,
-                child: Container(
-                  width: 27,
-                  height: 27,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage("https://placehold.co/27x27"),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 259,
-                top: 783,
-                child: Container(
-                  width: 27,
-                  height: 27,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 27,
-                          height: 27,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage("https://placehold.co/27x27"),
-                              fit: BoxFit.cover,
-                            ),
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'بدء المقابلة',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 48,
-                top: 783,
-                child: Container(
-                  width: 26,
-                  height: 26,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 26,
-                          height: 26,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage("https://placehold.co/26x26"),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 318,
-                top: 783,
-                child: Container(
-                  width: 27,
-                  height: 27,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 27,
-                          height: 27,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage("https://placehold.co/27x27"),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 140,
-                top: 838,
-                child: Container(
-                  width: 114,
-                  decoration: ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        width: 2,
-                        strokeAlign: BorderSide.strokeAlignCenter,
-                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ],
+      ),
+    );
+  }
+}
+
+//صفحة المقابلة الفعلية
+class InterviewPage extends StatelessWidget {
+  const InterviewPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 251, 248, 234),
+      body: SafeArea(
+        child: Center(
+          child: Container(
+            width: 393,
+            height: 852,
+            decoration: BoxDecoration(
+              //الخلفية اللي ورا
+              color: const Color.fromARGB(255, 255, 253, 247),
+              borderRadius: BorderRadius.circular(54),
+            ),
+            child: Stack(
+              children: [
+                //مكان الصورة
+                Positioned(
+                  top: 250,
+                  left: 0,
+                  right: 0,
+                  child: Image.asset('assets/images/Interview.png'),
+                  height: 200,
+                ),
+                //البوكس اللي نحط فيه السؤال
+                Positioned(
+                  left: 80,
+                  top: 450,
+                  child: Container(
+                    width: 241,
+                    height: 51,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 255, 250, 239),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 178, 178, 178),
+                      ),
+                    ),
+                  ),
+                ),
+                //السؤال نفسه
+                Positioned(
+                  left: 85,
+                  top: 461,
+                  child: const SizedBox(
+                    width: 230,
+                    child: Text(
+                      'عرفنا عن نفسك',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.bold,
+                        height: 1.4,
+                      ),
+                    ),
+                  ),
+                ),
+
+                //زر التسجيل
+                Positioned(
+                  left: 159,
+                  top: 566,
+                  child: Container(
+                    width: 94,
+                    height: 94,
+
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 255, 232, 173),
+                      shape: BoxShape.circle,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(51, 91, 91, 91),
+                          blurRadius: 27,
+                          offset: Offset(0, 4),
+                          spreadRadius: 5,
+                        ),
+                      ],
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Center(
+                        child: Icon(
+                          Icons.mic_none_sharp,
+                          size: 40, // adjust size
+                          color: Color.fromARGB(255, 90, 87, 87),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                //زر الرجوع للخلف
+                Positioned(
+                  left: 20,
+                  top: 60,
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 255, 250, 239),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 255, 224, 158),
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(51, 255, 255, 255),
+                          blurRadius: 27,
+                          offset: Offset(0, 4),
+                          spreadRadius: 5,
+                        ),
+                      ],
+                    ),
+                    child: BackButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('تنبيه'),
+                              content: Text(
+                                'لقد أنهيت المقابلة قبل انتهاء الوقت. لن يتم حفظ او تقييم المقابلة.',
+                              ),
+                              actions: [
+                                FilledButton(
+                                  style: FilledButton.styleFrom(
+                                    backgroundColor: Color.fromARGB(
+                                      255,
+                                      254,
+                                      231,
+                                      165,
+                                    ), // لون الزر
+                                    foregroundColor: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const Interview(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text('انهاء'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                //timer
+                Positioned(
+                  right: 20,
+                  top: 60,
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 255, 250, 239),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 255, 224, 158),
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(51, 255, 255, 255),
+                          blurRadius: 27,
+                          offset: Offset(0, 4),
+                          spreadRadius: 5,
+                        ),
+                      ],
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.timer,
+                        size: 30, // adjust size
+                        color: Color.fromARGB(255, 90, 87, 87),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
