@@ -6,6 +6,8 @@ import 'package:testapp/views/pages/home.dart';
 import 'package:testapp/views/pages/interview.dart';
 import 'package:testapp/views/pages/practical_questions_page.dart';
 import 'package:testapp/views/widgets/navbar_widget.dart';
+import 'package:testapp/views/pages/forgot_password.dart';
+
 
  List<Widget> pages =[
     PracticalQuestionsPage(), // أسئلة + أخطاء
@@ -13,6 +15,9 @@ import 'package:testapp/views/widgets/navbar_widget.dart';
     HomePage(),
     CoursesPage(),
     HistoryPage(),
+    ForgotFlow(),
+    SetPasswordScreen(),
+
   ];
 
 class WidgetsTree extends StatelessWidget {
