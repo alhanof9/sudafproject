@@ -44,12 +44,12 @@ class _PracticalQuestionsPageState extends State<PracticalQuestionsPage> {
             // الخلفية المنحنية
             Container(
               width: double.infinity,
-              height: 130,
+              height: 160,
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 255, 252, 245),
                 borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(100),
-                  bottomRight: Radius.circular(100),
+                  bottomLeft: Radius.circular(70),
+                  bottomRight: Radius.circular(70),
                 ),
                 boxShadow: const [
                   BoxShadow(
@@ -62,7 +62,7 @@ class _PracticalQuestionsPageState extends State<PracticalQuestionsPage> {
             ),
             // أيقونة البروفايل
             Positioned(
-              top: 40,
+              top: 50,
               right: 20,
               child: GestureDetector(
                 onTap: () {
@@ -82,27 +82,7 @@ class _PracticalQuestionsPageState extends State<PracticalQuestionsPage> {
                 ),
               ),
             ),
-            Positioned(
-              top: 40,
-              right: 50,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const InitialTest()),
-                  );
-                },
-                child: const CircleAvatar(
-                  radius: 28,
-                  backgroundColor: Color.fromARGB(0, 253, 255, 225),
-                  child: FaIcon(
-                    FontAwesomeIcons.question,// أيقونة السؤال 
-                    size: 28,
-                    color: Color.fromARGB(255, 96, 96, 96),
-                  ),
-                ),
-              ),
-            ),
+           
           ],
         ),
 

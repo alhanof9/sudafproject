@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:testapp/views/pages/login_view.dart';
+import 'package:testapp/views/pages/welcome_view.dart';
 import 'package:testapp/views/widgets_tree.dart';
 
 
@@ -24,7 +26,8 @@ class _MyAppState extends State<MyApp> {
         (seedColor: Color.fromARGB(255, 255, 255, 255)),
         brightness: Brightness.light
       ),
-      home: WidgetsTree(),
+      //home:  WidgetsTree(),
+      home: WelcomeScreen(),
       );
   }
 }

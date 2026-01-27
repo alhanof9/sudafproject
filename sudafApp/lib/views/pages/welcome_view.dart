@@ -30,11 +30,20 @@ class WelcomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
-              bottom: cardHeight - 118, 
-              left: 0, right: 0,
-              child: Image.asset('images/sudaf_logo.png', height: 270, width: 370, fit: BoxFit.contain),
+             Positioned(
+            left: 57,
+            top: 294,
+            child: Container(
+              width: 273,
+              height: 208,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/logo.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
+          ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(

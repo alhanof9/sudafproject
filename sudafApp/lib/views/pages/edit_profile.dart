@@ -8,14 +8,17 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  // معرفات الحقول للتحكم في النصوص
+  // مفتاح النموذج للتحقق من الصحة
+  final _formKey = GlobalKey<FormState>();
+
+  // معرفات الحقول للتحقق في التعديل
   final TextEditingController nameController = TextEditingController(text: 'AljoharhKSU');
   final TextEditingController emailController = TextEditingController(text: 'AljoharhKSU@gmail.com');
-  final TextEditingController passwordController = TextEditingController(text: '••••••••••••');
+  final TextEditingController passwordController = TextEditingController(); // تركتها فارغة ليبدأ المستخدم بإدخالها
   
   String selectedMajor = 'نظم المعلومات';
 
-  // --- المتغيرات الجديدة للعدادات ---
+  // المتغيرات للعدادات
   int volunteerHours = 5;
   int certificatesCount = 5;
   int coursesCount = 5;
@@ -30,129 +33,207 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // الجزء العلوي المنحني (Header)
-            Stack(
-              children: [
-                Container(
-                  height: 130,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: goldLight,
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(80),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 60,
-                  left: 20,
-                  right: 20,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: const Icon(Icons.arrow_back_ios_new, size: 20),
-                      ),
-                      const Text(
-                        'تعديل',
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(width: 25),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 30),
-
-            // الحقول
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+        child: Form(
+          key: _formKey, // ربط الـ Form بالمفتاح
+          child: Column(
+            children: [
+              // الجزء العلوي المنحني (Header)
+              Stack(
                 children: [
-                  _buildLabel('اسم المستخدم'),
-                  _buildTextField(nameController, false),
-                  
-                  const SizedBox(height: 15),
-                  _buildLabel('البريد الإلكتروني'),
-                  _buildTextField(emailController, false),
-                  
-                  const SizedBox(height: 15),
-                  _buildLabel('التخصص'),
-                  _buildDropdownField(borderColor, const Color.fromARGB(18, 157, 157, 157)),
-                  
-                  const SizedBox(height: 15),
-                  _buildLabel('كلمة المرور'),
-                  _buildTextField(passwordController, true),
-
-                  const SizedBox(height: 40),
-
-                  // إحصائيات سريعة تفاعلية
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildMiniStat('ساعات التطوع', volunteerHours.toString(), () {
-                        setState(() {
-                          volunteerHours++; // زيادة الرقم
-                        });
-                      }),
-                      _buildMiniStat('الشهادات', certificatesCount.toString(), () {
-                        setState(() {
-                          certificatesCount++; // زيادة الرقم
-                        });
-                      }),
-                      _buildMiniStat('الدورات', coursesCount.toString(), () {
-                        setState(() {
-                          coursesCount++; // زيادة الرقم
-                        });
-                      }),
-                    ],
-                  ),
-
-                  const SizedBox(height: 60),
-
-                  // زر حفظ
-                  Center(
-                    child: GestureDetector(
-                      onTap: () => _showSuccessDialog(),
-                      child: Container(
-                        width: 150,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        decoration: BoxDecoration(
-                          color: goldMain,
-                          borderRadius: BorderRadius.circular(25),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 8,
-                              offset: const Offset(0, 4),
-                            )
-                          ],
-                        ),
-                        child: const Text(
-                          'حفظ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
+                  Container(
+                    height: 130,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: goldLight,
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(80),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  Positioned(
+                    top: 60,
+                    left: 20,
+                    right: 20,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: const Icon(Icons.arrow_back_ios_new, size: 20),
+                        ),
+                        const Text(
+                          'تعديل',
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 25),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ],
+
+              const SizedBox(height: 30),
+
+              // الحقول داخل Padding
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    _buildLabel('اسم المستخدم'),
+                    _buildTextField(
+                      controller: nameController,
+                      isPassword: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) return 'يرجى إدخال اسم المستخدم';
+                        // مثال لمحاكاة الخطأ في الصورة
+                        if (value == "AljoharhKSU_Taken") return 'تم استخدام اسم المستخدم مسبقاً';
+                        return null;
+                      },
+                    ),
+                    
+                    const SizedBox(height: 15),
+                    _buildLabel('البريد الإلكتروني'),
+                    _buildTextField(
+                      controller: emailController,
+                      isPassword: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) return 'يرجى إدخال البريد الإلكتروني';
+                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                          return 'تم استخدام البريد من قبل أو غير صحيح';
+                        }
+                        return null;
+                      },
+                    ),
+                    
+                    const SizedBox(height: 15),
+                    _buildLabel('التخصص'),
+                    _buildDropdownField(borderColor, const Color.fromARGB(18, 157, 157, 157)),
+                    
+                    const SizedBox(height: 15),
+                    _buildLabel('كلمة المرور'),
+                    _buildTextField(
+                      controller: passwordController,
+                      isPassword: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) return 'يرجى إدخال كلمة المرور';
+                        // التحقق من الطول ووجود رقم (Regex)
+                        if (value.length < 8 || !RegExp(r'[0-9]').hasMatch(value)) {
+                          return 'يجب أن تحتوي كلمة المرور على ٨ أحرف على الأقل، وتتضمن رقماً واحداً على الأقل';
+                        }
+                        return null;
+                      },
+                    ),
+
+                    const SizedBox(height: 40),
+
+                    // إحصائيات سريعة تفاعلية
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _buildMiniStat('ساعات التطوع', volunteerHours.toString(), () {
+                          setState(() => volunteerHours++);
+                        }),
+                        _buildMiniStat('الشهادات', certificatesCount.toString(), () {
+                          setState(() => certificatesCount++);
+                        }),
+                        _buildMiniStat('الدورات', coursesCount.toString(), () {
+                          setState(() => coursesCount++);
+                        }),
+                      ],
+                    ),
+
+                    const SizedBox(height: 60),
+
+                    // زر حفظ مع تفعيل التحقق
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            _showSuccessDialog();
+                          }
+                        },
+                        child: Container(
+                          width: 150,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            color: goldMain,
+                            borderRadius: BorderRadius.circular(25),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              )
+                            ],
+                          ),
+                          child: const Text(
+                            'حفظ',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  // بناء مربعات الإحصائيات (الزر يبرز لأسفل)
+  // --- الميثودات المساعدة المعدلة ---
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required bool isPassword,
+    required String? Function(String?)? validator,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: isPassword,
+      textAlign: TextAlign.right,
+      validator: validator,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: const Color.fromARGB(18, 157, 157, 157),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(color: borderColor),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(color: Color(0xFFC5A358), width: 1.5),
+        ),
+        // حدود الخطأ
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(color: Colors.red, width: 1.0),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(color: Colors.red, width: 1.5),
+        ),
+        errorStyle: const TextStyle(color: Colors.red, fontSize: 11),
+      ),
+    );
+  }
+
+  Widget _buildLabel(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 5, bottom: 5),
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 13, color: Colors.grey, fontWeight: FontWeight.w500),
+      ),
+    );
+  }
+
   Widget _buildMiniStat(String label, String value, VoidCallback onAddTap) {
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -186,7 +267,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         Positioned(
           bottom: -22,
           child: GestureDetector(
-            onTap: onAddTap, // الأكشن الذي تم تعريفه في الـ Row
+            onTap: onAddTap,
             child: Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
@@ -194,47 +275,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 shape: BoxShape.circle,
                 border: Border.all(color: borderColor, width: 1.5),
               ),
-              child: const Icon(
-                Icons.add,
-                size: 30,
-                color: borderColor,
-              ),
+              child: const Icon(Icons.add, size: 30, color: borderColor),
             ),
           ),
         ),
       ],
-    );
-  }
-
-  // الميثودات المساعدة (Labels, TextField, Dropdown, Dialog)
-  Widget _buildLabel(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 5, bottom: 5),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 13, color: Colors.grey, fontWeight: FontWeight.w500),
-      ),
-    );
-  }
-
-  Widget _buildTextField(TextEditingController controller, bool isPassword) {
-    return TextField(
-      controller: controller,
-      obscureText: isPassword,
-      textAlign: TextAlign.right,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: const Color.fromARGB(18, 157, 157, 157),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(color: borderColor),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(color: Color(0xFFC5A358), width: 1.5),
-        ),
-      ),
     );
   }
 
@@ -262,9 +307,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             );
           }).toList(),
           onChanged: (newValue) {
-            setState(() {
-              selectedMajor = newValue!;
-            });
+            setState(() => selectedMajor = newValue!);
           },
         ),
       ),
@@ -292,10 +335,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
               child: Container(
                 padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  color: goldMain,
-                  shape: BoxShape.circle,
-                ),
+                decoration: const BoxDecoration(color: goldMain, shape: BoxShape.circle),
                 child: const Icon(Icons.arrow_back, color: Colors.black),
               ),
             ),

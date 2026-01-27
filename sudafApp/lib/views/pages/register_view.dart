@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:testapp/views/pages/initial_test.dart';
+import 'package:testapp/views/widgets_tree.dart';
 import '../widgets/custom_input.dart';
 import '../widgets/custom_button.dart';
 
@@ -51,10 +53,19 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
                 // --- الشعار (مربوط بارتفاع الكارد) ---
                 Positioned(
-                  bottom: cardHeight - 118, 
-                  left: 0, right: 0,
-                  child: Image.asset('images/sudaf_logo.png', height: 270, width: 370, fit: BoxFit.contain),
+            left: 57,
+            top: 134,
+            child: Container(
+              width: 273,
+              height: 208,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/logo.jpg'),
+                  fit: BoxFit.cover,
                 ),
+              ),
+            ),
+          ),
 
                 // --- الحاوية البيضاء مع الـ Form ---
                 Align(
@@ -112,8 +123,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                               }
                               // تنفيذ عملية التسجيل
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('تم التحقق.. جاري التسجيل'))
+                                const SnackBar(content: Text('تم التحقق.. جاري التسجيل')),
+                                
                               );
+                              Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                               InitialTest()));
                             }
                           }, width: 200),
                         ],

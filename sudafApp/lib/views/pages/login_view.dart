@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:testapp/views/widgets_tree.dart';
 import '../widgets/custom_input.dart';
 import '../widgets/custom_button.dart';
 
@@ -47,19 +49,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-
             // --- صورة الشعار المربوطة بالبوكس ---
             Positioned(
-              bottom: cardHeight - 118, 
-              left: 0,
-              right: 0,
-              child: Image.asset(
-                'images/sudaf_logo.png',
-                height: 270,
-                width: 370,
-                fit: BoxFit.contain,
+            left: 57,
+            top: 201,
+            child: Container(
+              width: 273,
+              height: 208,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/logo.jpg'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
+          ),
+
+
 
             // --- حاوية البيانات البيضاء ---
             Align(
@@ -129,7 +135,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       btn("تسجيل الدخول", () {
                         if (_loginFormKey.currentState!.validate()) {
                           // إذا نجح التحقق، ننتقل للخطوة التالية
-                          print("تم التحقق بنجاح.. جاري الدخول");
+                         Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                          WidgetsTree()));
                           // Navigator.push(...);
                         }
                       }, width: 220),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testapp/views/pages/edit_profile.dart';
+import 'package:testapp/views/pages/welcome_view.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -88,7 +89,7 @@ class ProfilePage extends StatelessWidget {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const LoginPage(),
+                                  builder: (context) => WelcomeScreen(),
                                 ),
                               );
                             },
