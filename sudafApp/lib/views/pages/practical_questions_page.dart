@@ -227,7 +227,7 @@ class _PracticalQuestionsPageState extends State<PracticalQuestionsPage> {
 
             /// 🔹 كروت الأخطاء
             SizedBox(
-              height: 150,
+              height: 180,
               child: ListView.builder(
                 controller: _errorsController,
                 scrollDirection: Axis.horizontal,
