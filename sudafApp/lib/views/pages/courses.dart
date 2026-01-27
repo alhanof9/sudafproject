@@ -136,6 +136,7 @@ class _CoursesPageState extends State<CoursesPage>
               Tab(text: 'دورات'),
               Tab(text: 'شهادات'),
             ],
+          
           ),
         ),
       ),
@@ -188,7 +189,7 @@ class _CoursesPageState extends State<CoursesPage>
                     child: const CircleAvatar(
                       backgroundColor: Color.fromARGB(241, 255, 248, 227),
                       child: Icon(
-                        Icons.arrow_forward,
+                        Icons.arrow_back,
                         color: Color.fromARGB(255, 254, 207, 96),
                       ),
                     ),

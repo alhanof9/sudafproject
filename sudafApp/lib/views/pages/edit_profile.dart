@@ -157,7 +157,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           width: 150,
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           decoration: BoxDecoration(
-                            color: goldMain,
+                            color: const Color.fromARGB(255, 255, 225, 161),
                             borderRadius: BorderRadius.circular(25),
                             boxShadow: [
                               BoxShadow(

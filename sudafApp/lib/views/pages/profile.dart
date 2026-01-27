@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// تأكدي من صحة المسارات حسب مجلدات مشروعك
 import 'package:testapp/views/pages/edit_profile.dart';
 import 'package:testapp/views/pages/welcome_view.dart';
 
@@ -7,7 +8,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // الألوان المستخرجة من التصميم
+    // --- تعريف الألوان المستخدمة في التصميم للحفاظ على الهوية البصرية ---
     const Color goldMain = Color.fromRGBO(255, 225, 161, 1);
     const Color goldLight = Color.fromRGBO(255, 252, 240, 1);
     const Color fieldFill = Color(0x2DFFF3C2);
@@ -18,12 +19,12 @@ class ProfilePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // الجزء العلوي (الخلفية المنحنية والبروفايل)
+            // --- الجزء العلوي: الخلفية المنحنية وصورة البروفايل وأزرار التحكم ---
             Stack(
               alignment: Alignment.center,
-              clipBehavior: Clip.none,
+              clipBehavior: Clip.none, // للسماح بصورة البروفايل بالبروز خارج الحاوية الصفراء
               children: [
-                // الخلفية الصفراء المنحنية
+                // 1. الحاوية الصفراء المنحنية (Header)
                 Container(
                   height: 270,
                   width: double.infinity,
@@ -42,7 +43,8 @@ class ProfilePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                // العنوان العلوي وأزرار التحكم
+
+                // 2. أزرار التحكم (الرجوع، التعديل، تسجيل الخروج) والعنوان
                 Positioned(
                   top: 60,
                   left: 20,
@@ -50,49 +52,39 @@ class ProfilePage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      
-                      // زر العودة
+                      // زر العودة للخلف
                       GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
+                        onTap: () => Navigator.pop(context),
                         child: const Icon(Icons.arrow_back_ios_new, size: 20),
                       ),
+
+                      // عنوان الصفحة
                       const Text(
                         'الملف الشخصي',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'Inter',
                         ),
                       ),
+
+                      // عمود يحتوي على أزرار التعديل وتسجيل الخروج
                       Column(
                         children: [
-                          // زر التعديل
+                          // زر التعديل (ينقل لصفحة EditProfilePage)
                           GestureDetector(
                             onTap: () {
-                              // مثال: فتح صفحة تعديل
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) =>  EditProfilePage(),
-                                ),
+                                MaterialPageRoute(builder: (context) => const EditProfilePage()),
                               );
                             },
                             child: _buildCircleIcon(Icons.auto_fix_high_outlined, borderColor),
                           ),
                           const SizedBox(height: 10),
-                          // زر تسجيل الخروج
+                          
+                          // زر تسجيل الخروج (يظهر رسالة تأكيد أولاً)
                           GestureDetector(
-                            onTap: () {
-                              // مثال: الرجوع لشاشة تسجيل الدخول
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => WelcomeScreen(),
-                                ),
-                              );
-                            },
+                            onTap: () => _showLogoutConfirmation(context),
                             child: _buildCircleIcon(Icons.logout, borderColor),
                           ),
                         ],
@@ -100,18 +92,19 @@ class ProfilePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                // صورة البروفايل الدائرية
+
+                // 3. صورة البروفايل الدائرية المرتفعة
                 Positioned(
                   bottom: -50,
                   child: Container(
-                    width: 170, // ضعف radius
+                    width: 170,
                     height: 170,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: borderColor, width: 2), // البوردر المباشر
+                      border: Border.all(color: borderColor, width: 2),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
+                          color: Colors.black.withOpacity(0.12),
                           blurRadius: 15,
                           spreadRadius: 2,
                           offset: const Offset(0, 5),
@@ -120,48 +113,38 @@ class ProfilePage extends StatelessWidget {
                     ),
                     child: const ClipOval(
                       child: CircleAvatar(
-                        radius: 85, // نصف الـ width والheight
+                        radius: 85,
                         backgroundColor: Colors.white,
                         backgroundImage: AssetImage("assets/images/student.jpg"),
                       ),
                     ),
                   ),
                 ),
-
-
-
               ],
             ),
 
-            const SizedBox(height: 80),
+            const SizedBox(height: 60), // مسافة لتعويض بروز الصورة
 
-            // الاسم والتخصص
+            // --- معلومات الاسم والتخصص ---
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
                 SizedBox(width: 5),
                 Text(
                   'AljoharhKSU',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF4F5363),
-                  ),
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF4F5363)),
                 ),
                 Icon(Icons.verified, color: goldMain, size: 18),
               ],
             ),
             const Text(
               'نظم معلومات',
-              style: TextStyle(
-                  color: Color.fromARGB(255, 94, 72, 26),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500),
+              style: TextStyle(color: Color.fromARGB(255, 94, 72, 26), fontSize: 14, fontWeight: FontWeight.w500),
             ),
 
             const SizedBox(height: 25),
 
-            // الحاوية الكبيرة (Card)
+            // --- بطاقة البيانات الشخصية والإحصائيات ---
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Container(
@@ -170,22 +153,19 @@ class ProfilePage extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(35),
                   boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 15,
-                      spreadRadius: 2,
-                    )
+                    BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 15, spreadRadius: 2)
                   ],
                 ),
                 child: Column(
                   children: [
+                    // حقول عرض البيانات
                     _buildDataField('AljoharhKSU', Icons.person, borderColor, fieldFill),
                     _buildDataField('AljoharhKSU@gmail.com', Icons.email, borderColor, fieldFill),
                     _buildDataField('نظم المعلومات', Icons.notes, borderColor, fieldFill),
 
                     const SizedBox(height: 20),
 
-                    // إحصائيات الدورات والشهادات
+                    // عرض الإحصائيات (ساعات، شهادات، دورات)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -205,6 +185,40 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
+  // --- دالة لإظهار رسالة تأكيد تسجيل الخروج ---
+  void _showLogoutConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text("تسجيل الخروج", textAlign: TextAlign.right),
+          content: const Text("هل أنت متأكد من رغبتك في تسجيل الخروج؟", textAlign: TextAlign.right),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("إلغاء", style: TextStyle(color: Colors.grey)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor:const Color.fromARGB(240, 255, 225, 161),
+),
+              onPressed: () {
+                Navigator.pop(context); // إغلاق الرسالة
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+                );
+              },
+              child: const Text("خروج", style: TextStyle(color: Colors.black)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // --- ويدجت لبناء حقول البيانات (اسم، إيميل...) ---
   Widget _buildDataField(String title, IconData icon, Color border, Color fill) {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
@@ -225,6 +239,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
+  // --- ويدجت لبناء مربعات الإحصائيات الصغيرة ---
   Widget _buildStatItem(String label, String count, Color border, Color fill) {
     return Container(
       width: 85,
@@ -244,6 +259,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
+  // --- ويدجت لبناء الأزرار الدائرية الصغيرة (التعديل والخروج) ---
   Widget _buildCircleIcon(IconData icon, Color border) {
     return Container(
       padding: const EdgeInsets.all(8),
@@ -254,21 +270,6 @@ class ProfilePage extends StatelessWidget {
         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5)],
       ),
       child: Icon(icon, size: 18, color: Colors.grey[700]),
-    );
-  }
-}
-
-// صفحات مثال للتنقل
-
-
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('تسجيل الدخول')),
-      body: const Center(child: Text('هنا صفحة تسجيل الدخول')),
     );
   }
 }

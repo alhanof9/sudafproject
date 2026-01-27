@@ -260,7 +260,7 @@ class _QuizPageState extends State<QuizPage> {
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('انتهى الاختبار'),
-          content: const Text('شكراً لإكمال الاختبار!'),
+          content: const Text(' نتيجة الاختبار المبدئي تعطيك لمحة عن مستواك الحالي مع اقتراحاتنا البسيطة تعزز جاهزيتك لمقابلات العمل.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pushAndRemoveUntil(
