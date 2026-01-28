@@ -16,7 +16,6 @@ import 'package:testapp/views/pages/forgot_password.dart';
     CoursesPage(),
     HistoryPage(),
     ForgotFlow(),
-    SetPasswordScreen(),
 
   ];
 
