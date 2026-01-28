@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testapp/views/pages/login_view.dart'; // تأكد من أن مسار ملف Login صحيح
 
-void main() {
-  runApp(const ForgotFlow());
-}
 
 class ForgotFlow extends StatelessWidget {
   const ForgotFlow({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:testapp/data/notifiers.dart';
 import 'package:testapp/views/pages/courses.dart';
-import 'package:testapp/views/pages/histry.dart';
+import 'package:testapp/views/pages/histry_report.dart';
 import 'package:testapp/views/pages/home.dart';
 import 'package:testapp/views/pages/interview.dart';
 import 'package:testapp/views/pages/practical_questions_page.dart';
@@ -15,6 +15,7 @@ import 'package:testapp/views/pages/forgot_password.dart';
     HomePage(),
     CoursesPage(),
     HistoryPage(),
+
   ];
 
 class WidgetsTree extends StatelessWidget {
