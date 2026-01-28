@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testapp/views/widgets_tree.dart';
 
 class InitialTest extends StatelessWidget {
   const InitialTest({super.key});
@@ -259,10 +260,13 @@ class _QuizPageState extends State<QuizPage> {
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('انتهى الاختبار'),
-          content: const Text('شكراً لإكمال الاختبار!'),
+          content: const Text(' نتيجة الاختبار المبدئي تعطيك لمحة عن مستواك الحالي مع اقتراحاتنا البسيطة تعزز جاهزيتك لمقابلات العمل.'),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => WidgetsTree()),
+                (route) => false,
+              ),
               child: const Text('حسناً'),
             )
           ],
