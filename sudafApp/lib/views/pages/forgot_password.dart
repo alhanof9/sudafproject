@@ -88,6 +88,8 @@ class EmailInputScreen extends StatelessWidget {
                   fontSize: 25,
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w600,
+                  height: 9.0,
+
                 ),
               ),
             ),
