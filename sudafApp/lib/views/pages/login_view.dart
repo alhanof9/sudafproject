@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testapp/views/pages/forgot_password.dart';
+import 'package:testapp/views/pages/welcome_view.dart';
 
 import 'package:testapp/views/widgets_tree.dart';
 import '../widgets/custom_input.dart';
@@ -34,7 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
               left: 10,
               child: IconButton(
                 icon: const Icon(Icons.arrow_forward_ios, size: 20),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                          WelcomeScreen()));},//
               ),
             ),
 
