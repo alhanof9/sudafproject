@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testapp/views/pages/forgot_password.dart';
 
 import 'package:testapp/views/widgets_tree.dart';
 import '../widgets/custom_input.dart';
@@ -122,7 +123,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       Container(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                          ForgotFlow()));  
+                          },
                           child: const Text(
                             "هل نسيت كلمة المرور؟",
                             style: TextStyle(color: Color(0xFF6B7280), fontSize: 12),

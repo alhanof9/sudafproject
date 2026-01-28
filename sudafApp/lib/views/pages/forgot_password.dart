@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testapp/views/pages/login_view.dart';
 
 class ForgotFlow extends StatelessWidget {
   const ForgotFlow({super.key});
@@ -745,7 +746,10 @@ class NewPasswordScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(100),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+                          LoginScreen())); 
+                        },
                         child: const Text(
                           "تأكيد",
                           style: TextStyle(color: Colors.black, fontSize: 18),

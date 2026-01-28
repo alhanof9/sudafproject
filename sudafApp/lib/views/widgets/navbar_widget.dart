@@ -16,7 +16,6 @@ class NavbarWidget extends StatelessWidget {
           NavigationDestination(icon: Icon(Icons.home), label: ''),  
           NavigationDestination(icon: Icon(Icons.school), label: ''),
           NavigationDestination(icon: Icon(Icons.calendar_today), label: ''),
-          NavigationDestination(icon: Icon(Icons.security), label: ''),
 
         ],
         onDestinationSelected: (int value) {

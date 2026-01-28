@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:testapp/views/pages/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// --- صفحة بروفايل وهمية لضمان عمل الكود ---
+
 class CoursesPage extends StatefulWidget {
   const CoursesPage({super.key});
 
@@ -37,15 +39,13 @@ class _CoursesPageState extends State<CoursesPage>
       'title': 'Cisco Certified Network Associate (CCNA)',
       'provider': 'Cisco',
       'type': 'شهادة',
-      'url':
-          'https://www.cisco.com/c/en/us/training-events/training-certifications/certifications.html',
+      'url': 'https://www.cisco.com/',
     },
     {
       'title': 'Microsoft Certified: Azure Fundamentals',
       'provider': 'Microsoft',
       'type': 'شهادة',
-      'url':
-          'https://learn.microsoft.com/en-us/certifications/azure-fundamentals/',
+      'url': 'https://learn.microsoft.com/',
     },
   ];
 
@@ -69,12 +69,11 @@ class _CoursesPageState extends State<CoursesPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white, // نفس خلفية الهوم بيج
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(
-          180,
-        ), // زودنا الارتفاع عشان يظهر النص والأيقونة
+        preferredSize: const Size.fromHeight(180),
         child: AppBar(
+          automaticallyImplyLeading: false,
           elevation: 0,
           backgroundColor: const Color.fromARGB(255, 255, 252, 245),
           shape: const RoundedRectangleBorder(
@@ -110,12 +109,13 @@ class _CoursesPageState extends State<CoursesPage>
                   ],
                 ),
                 const SizedBox(height: 10),
-                Text(
+                const Text(
                   'كل معرفة تكتسبها تبني سدفًا يضيء دربك نحو النجاح الوظيفي',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Color.fromARGB(255, 117, 117, 117),
+                    fontSize: 18,
+                    color: Color(0xFF5A5A5A),
+                    fontFamily: 'Cairo',
                   ),
                   textAlign: TextAlign.center,
                   maxLines: 2,
@@ -131,16 +131,15 @@ class _CoursesPageState extends State<CoursesPage>
             unselectedLabelColor: Colors.grey,
             indicatorColor: Colors.black,
             indicatorWeight: 2,
+            labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Cairo'),
             tabs: const [
               Tab(text: 'الكل'),
               Tab(text: 'دورات'),
               Tab(text: 'شهادات'),
             ],
-          
           ),
         ),
       ),
-
       body: TabBarView(
         controller: _tabController,
         children: [
@@ -154,86 +153,107 @@ class _CoursesPageState extends State<CoursesPage>
 
   Widget buildCourseList(String type) {
     final courses = filterCourses(type);
+
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
       itemCount: courses.length,
       itemBuilder: (context, index) {
         var course = courses[index];
-        return SizedBox(
-          height: 120,
-          child: Card(
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-              side: const BorderSide(color: Color(0xFFFEDF89), width: 1),
+        // هنا تم تطبيق تصميم الـ HomePage بضبط
+        return Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFFDF6), // لون الخلفية الفاتح
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: const Color(0xFFFEDF89).withOpacity(0.5), // لون الإطار
             ),
-            color: const Color.fromARGB(244, 255, 251, 239),
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      var url = Uri.parse(course['url']!);
-                      if (await canLaunchUrl(url)) {
-                        await launchUrl(
-                          url,
-                          mode: LaunchMode.externalApplication,
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('لا يمكن فتح الرابط')),
-                        );
-                      }
-                    },
-                    child: const CircleAvatar(
-                      backgroundColor: Color.fromARGB(241, 255, 248, 227),
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Color.fromARGB(255, 254, 207, 96),
-                      ),
-                    ),
+          ),
+          child: Row(
+            children: [
+              // 1. أيقونة السهم (على اليسار)
+              GestureDetector(
+                onTap: () async {
+                  var url = Uri.parse(course['url']!);
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url, mode: LaunchMode.externalApplication);
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: const Color(0xFFFEDF89)),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  child: const Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 16,
+                    color: Color(0xFFFEDF89),
+                  ),
+                ),
+              ),
+              
+              const Spacer(),
+              
+              // 2. النصوص والتفاصيل (على اليمين)
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    // الصف العلوي: الشارة + اسم الجهة
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          course['title']!,
-                          style: const TextStyle(fontWeight: FontWeight.w600),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                        // الشارة (Tag)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFF4D8),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            course['type']!,
+                            style: const TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Cairo',
+                            ),
+                          ),
                         ),
-                        Text(
-                          course['provider']!,
-                          style: const TextStyle(color: Colors.grey),
+                        const SizedBox(width: 8),
+                        // اسم الجهة (Subtitle)
+                        Flexible(
+                          child: Text(
+                            course['provider']!,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              fontFamily: 'Cairo',
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 255, 248, 227),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        side: const BorderSide(
-                          color: Color(0xFFFEDF89),
-                          width: 1,
-                        ),
+                    const SizedBox(height: 4),
+                    // العنوان السفلي (اسم الدورة)
+                    Text(
+                      course['title']!,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                        fontFamily: 'Cairo',
                       ),
+                      textAlign: TextAlign.right,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    child: Text(
-                      course['type']!,
-                      style: const TextStyle(fontSize: 12, color: Colors.black),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
         );
       },

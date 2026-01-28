@@ -15,8 +15,6 @@ import 'package:testapp/views/pages/forgot_password.dart';
     HomePage(),
     CoursesPage(),
     HistoryPage(),
-    ForgotFlow(),
-
   ];
 
 class WidgetsTree extends StatelessWidget {
