@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:testapp/views/pages/login_view.dart';
 
+void main() {
+  runApp(const ForgotFlow());
+}
+
 class ForgotFlow extends StatelessWidget {
   const ForgotFlow({super.key});
 
@@ -14,7 +18,7 @@ class ForgotFlow extends StatelessWidget {
 }
 
 // ------------------------------------------------------------
-// 🎨 ألوان ثابتة
+// 🎨 الألوان
 // ------------------------------------------------------------
 class AppColors {
   static const background = Color(0xFFFEFDF3);
@@ -26,17 +30,15 @@ class AppColors {
 }
 
 // ------------------------------------------------------------
-// 📌 Widget: المربع الأبيض السفلي (30% من الشاشة)
+// 📌 Widget: المربع الأبيض السفلي
 // ------------------------------------------------------------
 class BottomWhiteBox extends StatelessWidget {
   final Widget child;
-
   const BottomWhiteBox({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 0.45;
-
     return Positioned(
       left: 0,
       right: 0,
@@ -66,8 +68,32 @@ class BottomWhiteBox extends StatelessWidget {
 // ------------------------------------------------------------
 // 1️⃣ شاشة إدخال الإيميل
 // ------------------------------------------------------------
-class EmailInputScreen extends StatelessWidget {
+class EmailInputScreen extends StatefulWidget {
   const EmailInputScreen({super.key});
+
+  @override
+  State<EmailInputScreen> createState() => _EmailInputScreenState();
+}
+
+class _EmailInputScreenState extends State<EmailInputScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  bool showError = false;
+
+  final String mockDatabaseEmail = "test@example.com";
+
+  void validateEmail() {
+    setState(() {
+      if (_emailController.text == mockDatabaseEmail) {
+        showError = false;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const CodeInputScreen()),
+        );
+      } else {
+        showError = true;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,9 +101,8 @@ class EmailInputScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       body: Stack(
         children: [
-          // النص العلوي خلف كل شيء
           Positioned(
-            top: 80,
+            top: 150,
             left: 0,
             right: 0,
             child: Center(
@@ -85,261 +110,83 @@ class EmailInputScreen extends StatelessWidget {
                 'نسيت كلمة المرور',
                 textDirection: TextDirection.rtl,
                 style: TextStyle(
-                  color: Color.fromARGB(255, 24, 23, 23),
+                  color: Colors.black,
                   fontSize: 25,
-                  fontFamily: 'Roboto',
                   fontWeight: FontWeight.w600,
                   height: 9.0,
-
                 ),
               ),
             ),
           ),
-
-          // الصندوق الأبيض
           BottomWhiteBox(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 80),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(
-                    child: Text(
-                      "أدخل بريدك الإلكتروني لإرسال رمز التحقق لتعيين كلمة المرور",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: AppColors.textGrey,
-                        fontFamily: "Roboto",
-                      ),
-                    ),
+                  const Text(
+                    "أدخل بريدك الإلكتروني لإرسال رمز التحقق لتعيين كلمة المرور",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16, color: AppColors.textGrey),
                   ),
                   const SizedBox(height: 25),
                   const Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      "البريد الإلكتروني",
-                      style: TextStyle(fontSize: 14, fontFamily: "Roboto"),
-                    ),
+                    child: Text("البريد الإلكتروني", style: TextStyle(fontSize: 14)),
                   ),
                   const SizedBox(height: 8),
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: AppColors.borderYellow),
+                      border: Border.all(
+                        color: showError ? AppColors.errorRed : AppColors.borderYellow,
+                        width: showError ? 2 : 1,
+                      ),
                     ),
-                    child: const TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 16,
-                        ),
+                    child: TextField(
+                      controller: _emailController,
+                      textAlign: TextAlign.right,
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-                  const Spacer(),
-                  Center(
-                    child: SizedBox(
-                      width: 250,
-                      height: 55,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.yellow,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const CodeInputScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "إرسال الرمز للبريد الألكتروني",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontFamily: "Roboto",
-                          ),
-                        ),
+                  if (showError)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "البريد المدخل غير صحيح أو غير مسجل يرجى المحاولة مرة أخرى",
+                        style: TextStyle(color: AppColors.errorRed, fontSize: 12),
+                        textAlign: TextAlign.right,
                       ),
+                    ),
+                  const Spacer(),
+                  SizedBox(
+                    width: 250,
+                    height: 55,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.yellow,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                      ),
+                      onPressed: validateEmail,
+                      child: const Text("إرسال الرمز", style: TextStyle(color: Colors.black, fontSize: 16)),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-
-          IgnorePointer(
-            child: Align(
-              alignment: const Alignment(0, -0.01),
-              child: Container(
-                width: 110,
-                height: 110,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFEEFC7),
-                  borderRadius: BorderRadius.circular(25),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.shield_outlined,
-                  size: 60,
-                  color: Color(0xFF616161),
-                ),
-              ),
-            ),
-          ),
+          _buildShieldIcon(),
         ],
       ),
     );
   }
 }
-// ------------------------------------------------------------
-// 2️⃣ شاشة خطأ الإيميل
-// ------------------------------------------------------------
-class EmailErrorScreen extends StatelessWidget {
-  const EmailErrorScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    return Scaffold(
-      backgroundColor: AppColors.background,
-     body: Stack(
-  children: [
-         Positioned(
-      top: 80,
-      left: 0,
-      right: 0,
-      child: Center(
-        child: Text(
-          'نسيت كلمة المرور',
-          textDirection: TextDirection.rtl,
-          style: TextStyle(
-            color: Color.fromARGB(255, 24, 23, 23),
-            fontSize: 25,
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w600,
-            height: 9.0,
-          ),
-        ),
-      ),
-    ),
-    // المربع الأبيض 
-    BottomWhiteBox(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 80),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Text(
-                "أدخل بريدك الإلكتروني لإرسال رمز التحقق لتعيين كلمة المرور",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: AppColors.textGrey,
-                  fontFamily: "Roboto",
-                ),
-              ),
-            ),
-            const SizedBox(height: 25),
-              const Align(
-                  alignment: Alignment.centerRight, 
-                  child: Text(
-                    "البريد الإلكتروني",
-                    style: TextStyle(fontSize: 14, fontFamily: "Roboto"),
-                  ),
-                ),            const SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(25),
-                border: Border.all(color: AppColors.errorRed, width: 2),
-              ),
-              child: const TextField(
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              "البريد المدخل غير صحيح أو غير مسجل يرجى المحاولة مرة أخرى",
-              style: TextStyle(color: AppColors.errorRed),
-            ),
-            const Spacer(),
-            Center(
-              child: SizedBox(
-                width: 250,
-                height: 55,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.yellow,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: const Text(
-                    " إرسال الرمز للبريد الإكتروني",
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-
-    // الأيقونة في نهاية الستاك
-          Align(
-  alignment: Alignment(0, -0.01), // يتحكم بمكانها عموديًا
-  child: Container(
-    width: 110,
-    height: 110,
-    decoration: BoxDecoration(
-      color: Color(0xFFFEEFC7),
-      borderRadius: BorderRadius.circular(25),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.2),
-          blurRadius: 6,
-          offset: Offset(0, 2),
-        ),
-      ],
-    ),
-    child: const Icon(
-      Icons.shield_outlined,
-      size: 60,
-      color: Color(0xFF616161),
-    ),
-  ),
-),
-  ],
-),
-
-    );
-  }
-}
 
 // ------------------------------------------------------------
-// 3️⃣ شاشة إدخال رمز التحقق
+// 2️⃣ شاشة إدخال رمز التحقق
 // ------------------------------------------------------------
 class CodeInputScreen extends StatefulWidget {
   const CodeInputScreen({super.key});
@@ -349,85 +196,59 @@ class CodeInputScreen extends StatefulWidget {
 }
 
 class _CodeInputScreenState extends State<CodeInputScreen> {
-  final List<TextEditingController> controllers = List.generate(
-    4,
-    (_) => TextEditingController(),
-  );
-
+  final List<TextEditingController> controllers = List.generate(4, (_) => TextEditingController());
   final List<FocusNode> focusNodes = List.generate(4, (_) => FocusNode());
+  bool showError = false;
 
-  @override
-  void dispose() {
-    for (var c in controllers) {
-      c.dispose();
+  final String correctCode = "1234";
+
+  void validateCode() {
+    String enteredCode = controllers.map((e) => e.text).join();
+    if (enteredCode == correctCode) {
+      setState(() => showError = false);
+      Navigator.push(context, MaterialPageRoute(builder: (_) => const NewPasswordScreen()));
+    } else {
+      setState(() {
+        showError = true;
+        for (var controller in controllers) controller.clear();
+      });
+      FocusScope.of(context).requestFocus(focusNodes[0]);
     }
-    for (var f in focusNodes) {
-      f.dispose();
-    }
-    super.dispose();
   }
 
   void handleInput(int index, String value) {
-    if (value.isNotEmpty) {
-      // إذا كتب رقم → نروح للمربع اللي بعده
-      if (index < 3) {
-        FocusScope.of(context).requestFocus(focusNodes[index + 1]);
-      } else {
-        FocusScope.of(context).unfocus(); // آخر مربع
-      }
-    } else {
-      // إذا مسح → نرجع للمربع اللي قبله
-      if (index > 0) {
-        FocusScope.of(context).requestFocus(focusNodes[index - 1]);
-      }
+    if (value.isNotEmpty && index < 3) {
+      FocusScope.of(context).requestFocus(focusNodes[index + 1]);
+    } else if (value.isEmpty && index > 0) {
+      FocusScope.of(context).requestFocus(focusNodes[index - 1]);
     }
+    if (showError) setState(() => showError = false);
+  }
+
+  @override
+  void dispose() {
+    for (var c in controllers) c.dispose();
+    for (var f in focusNodes) f.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Stack(
         children: [
-              Positioned(
-      top: 80,
-      left: 0,
-      right: 0,
-      child: Center(
-        child: Text(
-          'نسيت كلمة المرور',
-          textDirection: TextDirection.rtl,
-          style: TextStyle(
-            color: Color.fromARGB(255, 24, 23, 23),
-            fontSize: 25,
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w600,
-            height: 9.0,
-          ),
-        ),
-      ),
-    ),
-          // المربع الأبيض
+          _buildTopTitle(),
           BottomWhiteBox(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 95),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 80),
               child: Column(
                 children: [
-                  Text(
+                  const Text(
                     "أدخل الرمز المرسل على البريد الإلكتروني",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: AppColors.textGrey,
-                      fontFamily: "Roboto",
-                    ),
+                    style: TextStyle(fontSize: 18, color: AppColors.textGrey),
                   ),
-
                   const SizedBox(height: 25),
-
-                  // مربعات الإدخال
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: List.generate(4, (index) {
@@ -436,7 +257,10 @@ class _CodeInputScreenState extends State<CodeInputScreen> {
                         height: 60,
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          border: Border.all(color: AppColors.borderYellow),
+                          border: Border.all(
+                            color: showError ? AppColors.errorRed : AppColors.borderYellow,
+                            width: showError ? 2 : 1,
+                          ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: TextField(
@@ -445,71 +269,38 @@ class _CodeInputScreenState extends State<CodeInputScreen> {
                           textAlign: TextAlign.center,
                           keyboardType: TextInputType.number,
                           maxLength: 1,
-                          style: const TextStyle(fontSize: 22),
-                          decoration: const InputDecoration(
-                            counterText: "",
-                            border: InputBorder.none,
-                          ),
-                          onChanged: (value) => handleInput(index, value),
+                          onChanged: (v) => handleInput(index, v),
+                          decoration: const InputDecoration(counterText: "", border: InputBorder.none),
                         ),
                       );
                     }),
                   ),
-
+                  if (showError)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text(
+                        "الرمز المدخل غير صحيح، تم مسح الإدخال لإعادة المحاولة",
+                        style: TextStyle(color: AppColors.errorRed, fontSize: 13),
+                      ),
+                    ),
                   const Spacer(),
-
-                  // زر التأكيد
                   SizedBox(
                     width: 250,
                     height: 55,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.yellow,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
-                        ),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const NewPasswordScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        "إرسال الرمز للبريد الإلكتروني",
-                        style: TextStyle(color: Colors.black, fontSize: 18),
-                      ),
+                      onPressed: validateCode,
+                      child: const Text("تأكيد الرمز", style: TextStyle(color: Colors.black, fontSize: 18)),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-           Align(
-  alignment: Alignment(0, -0.01), // يتحكم بمكانها عموديًا
-  child: Container(
-    width: 110,
-    height: 110,
-    decoration: BoxDecoration(
-      color: Color(0xFFFEEFC7),
-      borderRadius: BorderRadius.circular(25),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.2),
-          blurRadius: 6,
-          offset: Offset(0, 2),
-        ),
-      ],
-    ),
-    child: const Icon(
-      Icons.shield_outlined,
-      size: 60,
-      color: Color(0xFF616161),
-    ),
-  ),
-),
+          _buildShieldIcon(),
         ],
       ),
     );
@@ -517,224 +308,83 @@ class _CodeInputScreenState extends State<CodeInputScreen> {
 }
 
 // ------------------------------------------------------------
-// 4️⃣ شاشة خطأ رمز التحقق
+// 3️⃣ شاشة كلمة المرور الجديدة
 // ------------------------------------------------------------
-class CodeErrorScreen extends StatelessWidget {
-  const CodeErrorScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: Stack(
-        children: [
-               Positioned(
-      top: 80,
-      left: 0,
-      right: 0,
-      child: Center(
-        child: Text(
-          'نسيت كلمة المرور',
-          textDirection: TextDirection.rtl,
-          style: TextStyle(
-            color: Color.fromARGB(255, 24, 23, 23),
-            fontSize: 25,
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w600,
-            height: 9.0,
-          ),
-        ),
-      ),
-    ),
-   
-
-          BottomWhiteBox(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 95),
-              child: Column(
-                children: [
-                  Text(
-                    "أدخل الرمز المرسل على البريد الإلكتروني.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: AppColors.textGrey,
-                      fontFamily: "Roboto",
-                    ),
-                  ),
-
-                  const SizedBox(height: 25),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: List.generate(
-                      4,
-                      (_) => Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: AppColors.errorRed,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const TextField(
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 22),
-                          decoration: InputDecoration(border: InputBorder.none),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  const Text(
-                    "الرمز المدخل غير صحيح , يرجى التحقق وإعادة المحاولة",
-                    style: TextStyle(color: AppColors.errorRed),
-                  ),
-
-                  const Spacer(),
-
-                  SizedBox(
-                    width: 250,
-                    height: 55,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.yellow,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        "إرسال الرمز للبريد الإلكتروني",
-                        style: TextStyle(color: Colors.black, fontSize: 18),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-                 Align(
-  alignment: Alignment(0, -0.01), // يتحكم بمكانها عموديًا
-  child: Container(
-    width: 110,
-    height: 110,
-    decoration: BoxDecoration(
-      color: Color(0xFFFEEFC7),
-      borderRadius: BorderRadius.circular(25),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.2),
-          blurRadius: 6,
-          offset: Offset(0, 2),
-        ),
-      ],
-    ),
-    child: const Icon(
-      Icons.shield_outlined,
-      size: 60,
-      color: Color(0xFF616161),
-    ),
-  ),
-),
-        ],
-      ),
-    );
-  }
-}
-
-// ------------------------------------------------------------
-// 5️⃣ شاشة تعيين كلمة مرور جديدة
-// ------------------------------------------------------------
-class NewPasswordScreen extends StatelessWidget {
+class NewPasswordScreen extends StatefulWidget {
   const NewPasswordScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+  State<NewPasswordScreen> createState() => _NewPasswordScreenState();
+}
 
+class _NewPasswordScreenState extends State<NewPasswordScreen> {
+  final TextEditingController _passController = TextEditingController();
+  bool showError = false;
+
+  void validatePassword() {
+    String pass = _passController.text;
+    bool hasDigits = pass.contains(RegExp(r'[0-9]'));
+    bool isLongEnough = pass.length >= 8;
+
+    if (hasDigits && isLongEnough) {
+      setState(() => showError = false);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    } else {
+      setState(() => showError = true);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Stack(
         children: [
-
-                    Positioned(
-      top: 80,
-      left: 0,
-      right: 0,
-      child: Center(
-        child: Text(
-          'نسيت كلمة المرور',
-          textDirection: TextDirection.rtl,
-          style: TextStyle(
-            color: Color.fromARGB(255, 24, 23, 23),
-            fontSize: 25,
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w600,
-            height: 9.0,
-          ),
-        ),
-      ),
-    ),
-      
-
+          _buildTopTitle(),
           BottomWhiteBox(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 95),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 80),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                 const Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                      "أدخل كلمة المرور الجديدة",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: AppColors.textGrey,
-                        fontFamily: "Roboto",
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 10),
-
                   const Align(
-                  alignment: Alignment.centerRight, // محاذاة لليمين
-                  child:  Text("كلمة المرور", style: TextStyle(fontSize: 16)),
-                ),
-                 const SizedBox(height: 8),
-
+                    alignment: Alignment.centerRight,
+                    child: Text("أدخل كلمة المرور الجديدة", style: TextStyle(fontSize: 18, color: AppColors.textGrey)),
+                  ),
+                  const SizedBox(height: 20),
+                  const Align(
+                    alignment: Alignment.centerRight,
+                    child: Text("كلمة المرور الجديدة", style: TextStyle(fontSize: 16)),
+                  ),
+                  const SizedBox(height: 8),
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppColors.borderYellow),
+                      border: Border.all(color: showError ? AppColors.errorRed : AppColors.borderYellow, width: showError ? 2 : 1),
                     ),
-                    child: const TextField(
+                    child: TextField(
+                      controller: _passController,
                       obscureText: true,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 16,
-                        ),
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                         border: InputBorder.none,
                       ),
                     ),
                   ),
-
-
-                 
-
+                  if (showError)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text(
+                        "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، وتتضمن رقماً واحداً على الأقل.",
+                        style: TextStyle(color: AppColors.errorRed, fontSize: 13),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
                   const Spacer(),
-
                   Center(
                     child: SizedBox(
                       width: 250,
@@ -742,18 +392,10 @@ class NewPasswordScreen extends StatelessWidget {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.yellow,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                         ),
-                        onPressed: () {
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
-                          LoginScreen())); 
-                        },
-                        child: const Text(
-                          "تأكيد",
-                          style: TextStyle(color: Colors.black, fontSize: 18),
-                        ),
+                        onPressed: validatePassword,
+                        child: const Text("تأكيد", style: TextStyle(color: Colors.black, fontSize: 18)),
                       ),
                     ),
                   ),
@@ -761,29 +403,7 @@ class NewPasswordScreen extends StatelessWidget {
               ),
             ),
           ),
-                 Align(
-  alignment: Alignment(0, -0.01), // يتحكم بمكانها عموديًا
-  child: Container(
-    width: 110,
-    height: 110,
-    decoration: BoxDecoration(
-      color: Color(0xFFFEEFC7),
-      borderRadius: BorderRadius.circular(25),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.2),
-          blurRadius: 6,
-          offset: Offset(0, 2),
-        ),
-      ],
-    ),
-    child: const Icon(
-      Icons.shield_outlined,
-      size: 60,
-      color: Color(0xFF616161),
-    ),
-  ),
-),
+          _buildShieldIcon(),
         ],
       ),
     );
@@ -791,141 +411,34 @@ class NewPasswordScreen extends StatelessWidget {
 }
 
 // ------------------------------------------------------------
-// 6️⃣ شاشة خطأ كلمة المرور
+// مساعدات التصميم
 // ------------------------------------------------------------
-class NewPasswordErrorScreen extends StatelessWidget {
-  const NewPasswordErrorScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: Stack(
-        children: [
-
-      Positioned(
-      top: 80,
-      left: 0,
-      right: 0,
-      child: Center(
-        child: Text(
-          'نسيت كلمة المرور',
-          textDirection: TextDirection.rtl,
-          style: TextStyle(
-            color: Color.fromARGB(255, 24, 23, 23),
-            fontSize: 25,
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w600,
-            height: 9.0,
-          ),
-        ),
+Widget _buildTopTitle() {
+  return Positioned(
+    top: 150,
+    left: 0,
+    right: 0,
+    child: Center(
+      child: Text(
+        'نسيت كلمة المرور',
+        style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.w600, height: 9.0),
       ),
     ),
-    
+  );
+}
 
-          BottomWhiteBox(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 70),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                       const Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                      "أدخل كلمة المرور الجديدة",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: AppColors.textGrey,
-                        fontFamily: "Roboto",
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-                  const Align(
-                  alignment: Alignment.centerRight, // محاذاة لليمين
-                  child:  Text("كلمة المرور", style: TextStyle(fontSize: 16)),
-                ),
-                 const SizedBox(height: 8),
-
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: AppColors.errorRed, width: 2),
-                    ),
-                    child: const TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 16,
-                        ),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 5),
-
-                  const Text(
-                    "يجب أن تحتوي كلمة المرور على ٨ أحرف على الأقل, وتتضمن رقما واحدا على الأقل.",
-                    style: TextStyle(color: AppColors.errorRed),
-                  ),
-
-                  const Spacer(),
-
-                  Center(
-                    child: SizedBox(
-                      width: 250,
-                      height: 55,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.yellow,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: const Text(
-                          "تأكيد",
-                          style: TextStyle(color: Colors.black, fontSize: 18),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-                 Align(
-  alignment: Alignment(0, -0.01), // يتحكم بمكانها عموديًا
-  child: Container(
-    width: 110,
-    height: 110,
-    decoration: BoxDecoration(
-      color: Color(0xFFFEEFC7),
-      borderRadius: BorderRadius.circular(25),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.2),
-          blurRadius: 6,
-          offset: Offset(0, 2),
-        ),
-      ],
-    ),
-    child: const Icon(
-      Icons.shield_outlined,
-      size: 60,
-      color: Color(0xFF616161),
-    ),
-  ),
-),
-        ],
+Widget _buildShieldIcon() {
+  return Align(
+    alignment: const Alignment(0, 0.12),
+    child: Container(
+      width: 110,
+      height: 110,
+      decoration: BoxDecoration(
+        color: const Color(0xFFFEEFC7),
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 6, offset: const Offset(0, 2))],
       ),
-    );
-  }
+      child: const Icon(Icons.shield_outlined, size: 60, color: Color(0xFF616161)),
+    ),
+  );
 }
