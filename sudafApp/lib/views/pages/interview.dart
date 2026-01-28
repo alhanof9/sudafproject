@@ -3,6 +3,7 @@ import 'package:testapp/views/pages/home.dart';
 import 'package:testapp/views/pages/profile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:testapp/views/widgets_tree.dart';
+import 'dart:async';
 
 class Interview extends StatelessWidget {
   const Interview({super.key});
@@ -12,7 +13,7 @@ class Interview extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFBEB),
 
-      body: SingleChildScrollView (
+      body: SingleChildScrollView(
         child: SafeArea(
           child: Center(
             child: Container(
@@ -48,7 +49,7 @@ class Interview extends StatelessWidget {
                       ),
                     ),
                   ),
-        
+
                   /// العنوان
                   const Positioned(
                     top: 105,
@@ -64,7 +65,7 @@ class Interview extends StatelessWidget {
                       ),
                     ),
                   ),
-        
+
                   /// التعليمات
                   Positioned(
                     top: 200,
@@ -136,7 +137,7 @@ class Interview extends StatelessWidget {
                       ],
                     ),
                   ),
-        
+
                   /// التعليمات
                   Positioned(
                     top: 250,
@@ -164,6 +165,7 @@ class Interview extends StatelessWidget {
                       ),
                     ),
                   ),
+
                   /// زر البدء
                   Positioned(
                     bottom: 150, //نزلت الزر تحت اكثر
@@ -217,8 +219,75 @@ class Interview extends StatelessWidget {
 }
 
 //صفحة المقابلة الفعلية
-class InterviewPage extends StatelessWidget {
+
+class InterviewPage extends StatefulWidget {
   const InterviewPage({super.key});
+
+  @override
+  State<InterviewPage> createState() => _InterviewPageState();
+}
+
+class _InterviewPageState extends State<InterviewPage> {
+  int _secondsRemaining = 300; // 5 دقائق
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_secondsRemaining > 0) {
+        setState(() {
+          _secondsRemaining--;
+        });
+      } else {
+        _timer?.cancel();
+        _showTimeUpAlert();
+      }
+    });
+  }
+
+  void _showTimeUpAlert() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('لقد أكملت المقابلة'),
+          content: const Text('اطلع على تقريرك الكامل في  صفحة المقابلات'),
+          actions: [
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 254, 231, 165),
+                foregroundColor: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const WidgetsTree()),
+                );
+              },
+              child: const Text('انهاء'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  String _formatTime(int seconds) {
+    final minutes = (seconds ~/ 60).toString().padLeft(2, '0');
+    final secs = (seconds % 60).toString().padLeft(2, '0');
+    return "$minutes:$secs";
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -230,7 +299,6 @@ class InterviewPage extends StatelessWidget {
             width: 393,
             height: 852,
             decoration: BoxDecoration(
-              //الخلفية اللي ورا
               color: const Color.fromARGB(255, 255, 253, 247),
               borderRadius: BorderRadius.circular(54),
             ),
@@ -286,7 +354,6 @@ class InterviewPage extends StatelessWidget {
                   child: Container(
                     width: 94,
                     height: 94,
-
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 255, 232, 173),
                       shape: BoxShape.circle,
@@ -304,7 +371,7 @@ class InterviewPage extends StatelessWidget {
                       child: const Center(
                         child: Icon(
                           Icons.mic_none_sharp,
-                          size: 40, // adjust size
+                          size: 40,
                           color: Color.fromARGB(255, 90, 87, 87),
                         ),
                       ),
@@ -339,19 +406,19 @@ class InterviewPage extends StatelessWidget {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text('تنبيه'),
-                              content: Text(
+                              title: const Text('تنبيه'),
+                              content: const Text(
                                 'لقد أنهيت المقابلة قبل انتهاء الوقت. لن يتم حفظ او تقييم المقابلة.',
                               ),
                               actions: [
                                 FilledButton(
                                   style: FilledButton.styleFrom(
-                                    backgroundColor: Color.fromARGB(
+                                    backgroundColor: const Color.fromARGB(
                                       255,
                                       254,
                                       231,
                                       165,
-                                    ), // لون الزر
+                                    ),
                                     foregroundColor: Colors.black,
                                   ),
                                   onPressed: () {
@@ -362,7 +429,7 @@ class InterviewPage extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  child: Text('انهاء'),
+                                  child: const Text('انهاء'),
                                 ),
                               ],
                             );
@@ -372,7 +439,7 @@ class InterviewPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                //timer
+                //timer مع العد التنازلي
                 Positioned(
                   right: 20,
                   top: 60,
@@ -394,11 +461,14 @@ class InterviewPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.timer,
-                        size: 30, // adjust size
-                        color: Color.fromARGB(255, 90, 87, 87),
+                    child: Center(
+                      child: Text(
+                        _formatTime(_secondsRemaining),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 90, 87, 87),
+                        ),
                       ),
                     ),
                   ),
